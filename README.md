@@ -1,5 +1,5 @@
 # DslSpan
-Android 一个强大的自定义span(`DslDrawableSpan`), 以及一个使用工具.
+Android一个强大的自定义span(`DslDrawableSpan`), 以及一个`SpannableStringBuilder`使用工具.
 
 
 ![](https://img.shields.io/badge/License-MIT-3A66AC) ![](https://img.shields.io/badge/Api-8+-4A773C) ![](https://img.shields.io/badge/AndroidX-yes-AA883C)
