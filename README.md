@@ -8,6 +8,8 @@ Android 一个强大的自定义span(`DslDrawableSpan`), 以及一个使用工�
 
 本库提供2个自定义`span`(`DslTextSpan` `DslDrawableSpan`) 和一个`SpannableStringBuilder`工具类`DslSpan`
 
+![](https://raw.githubusercontent.com/angcyo/DslSpan/master/png/span.png)
+
 
 # DslDrawableSpan
 
@@ -21,7 +23,7 @@ Android 一个强大的自定义span(`DslDrawableSpan`), 以及一个使用工�
 - 支持`padding`属性
 - 支持`click`点击事件(不影响`TextView`原有的`OnClickListener`事件)
 
-支持的属性如下:
+**支持的属性如下:**
 
 ```kotlin
 /**绘制文本时的文本大小*/
@@ -84,7 +86,7 @@ var spanClickAction: ((view: View, span: DslDrawableSpan) -> Unit)? = null
 
 这个类组合了系统各个`CharacterStyle`的样式.
 
-支持的属性如下:
+**支持的属性如下:**
 
 ```kotlin
 /**文本颜色*/
@@ -133,7 +135,7 @@ var onClickSpan: ((view: View, span: DslTextSpan) -> Unit)? = null
 
 这个类是`SpannableStringBuilder`的工具类, 用于方便添加`span`.
 
-实战使用如下:
+**实战使用如下:**
 
 ```kotlin
 tv(R.id.text1).text = span {
