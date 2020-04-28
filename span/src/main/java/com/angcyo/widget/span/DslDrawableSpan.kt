@@ -29,24 +29,33 @@ open class DslDrawableSpan : ReplacementSpan(), IWeightSpan, IClickableSpan, IDr
 
     val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
 
+    /**绘制文本时的文本大小*/
     @Px
     var textSize: Float = -1f
 
+    /**绘制文本时的文本颜色*/
     @ColorInt
     var textColor: Int = undefined_color
 
+    /**文本绘制的重力*/
     var textGravity: Int = Gravity.LEFT or Gravity.BOTTOM
 
-    /**需要替换显示的文本*/
+    /**需要替换显示的文本, 为空则绘制默认append的文本*/
     var showText: CharSequence? = null
 
-    /**强制指定宽度*/
+    /**强制指定span的宽度*/
     var spanWidth: Int = undefined_int
+
+    /**强制指定span的高度*/
     var spanHeight: Int = undefined_int
+
+    /**限制span的最大宽度*/
     var spanMaxWidth: Int = undefined_int
 
     /**span相对于[TextView]的比例, 不支持平分. 需要[DslSpanTextView]支持*/
     var spanWeight: Float = undefined_float
+
+    /**使用weight计算最大宽度的限制*/
     var spanMaxWeight: Float = undefined_float
 
     /**宽度等于高度*/

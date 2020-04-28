@@ -131,6 +131,7 @@ class DslSpan {
         flag = SPAN_EXCLUSIVE_EXCLUSIVE
     }
 
+    /**追加一个换行*/
     fun appendln(): DslSpan {
         _builder.appendln()
         return this
