@@ -129,7 +129,9 @@ var leadingRestWeight: Float = undefined_float
 var onClickSpan: ((view: View, span: DslTextSpan) -> Unit)? = null
 ```
 
-> 注意: 如果需要`span`的点击事件, 请调用`SpanClickMethod.install(textView)`, 方可生效.
+> 注意: 
+如果需要`span`的点击事件, 请调用`SpanClickMethod.install(textView)`, 方可生效.
+如果需要`weight`的属性的支持,请使用`DslSpanTextView`替换原来的`TextView`
 
 # DslSpan
 
