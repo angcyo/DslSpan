@@ -75,6 +75,7 @@ open class DslSpanTextView : AppCompatTextView {
                 span.setDrawableColor(color)
             }
         }
+        invalidate()
     }
 
     /**添加额外的状态*/
@@ -101,7 +102,9 @@ open class DslSpanTextView : AppCompatTextView {
         //设置内置span的weight支持
         spans { _, span ->
             if (span is IWeightSpan) {
-                span.onMeasure(widthSize, heightSize)
+                val width = widthSize - paddingLeft - paddingRight
+                val height = heightSize - paddingTop - paddingBottom
+                span.onMeasure(width, height)
             }
         }
     }

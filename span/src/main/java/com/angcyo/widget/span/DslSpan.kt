@@ -7,6 +7,8 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
 import android.text.style.*
 import android.view.Gravity
+import android.view.View
+import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import kotlin.math.max
@@ -18,7 +20,7 @@ import kotlin.math.max
  * @date 2020/01/08
  */
 
-class DslSpan {
+class DslSpan : Appendable {
 
     val _builder = SpannableStringBuilder()
 
@@ -167,7 +169,7 @@ class DslSpan {
     }
 
     /**追加空隙*/
-    fun appendSpace(@Px size: Int, @ColorInt color: Int = Color.TRANSPARENT): DslSpan {
+    fun appendSpace(@Px size: Int = 10 * dpi, @ColorInt color: Int = Color.TRANSPARENT): DslSpan {
         append("<space>", SpaceSpan(size, color))
         return this
     }
@@ -208,9 +210,42 @@ class DslSpan {
         return this
     }
 
+    /**快速追加一个可以点击的文本*/
+    fun click(
+        textView: TextView?,
+        text: CharSequence? = null,
+        textColor: Int = "#4FB4F9".toColorInt(),
+        action: DslDrawableSpan.() -> Unit = {},
+        clickAction: (view: View, span: DslDrawableSpan) -> Unit
+    ): DslSpan {
+        append("<click>", DslDrawableSpan().apply {
+            SpanClickMethod.install(textView)
+            showText = text
+            this.textColor = textColor
+            spanClickAction = clickAction
+            this.action()
+        })
+        return this
+    }
+
     /**快速追加[DslTextSpan]*/
     fun text(text: CharSequence?, action: DslTextSpan.() -> Unit = {}): DslSpan {
         append(text, DslTextSpan().apply(action))
+        return this
+    }
+
+    override fun append(csq: CharSequence?): Appendable {
+        append(text = csq)
+        return this
+    }
+
+    override fun append(csq: CharSequence?, start: Int, end: Int): Appendable {
+        append(text = csq?.subSequence(start, end))
+        return this
+    }
+
+    override fun append(c: Char): Appendable {
+        append(text = c.toString())
         return this
     }
 
@@ -276,12 +311,15 @@ data class DslSpanConfig(
 fun DslSpan.drawableTipBorder(
     text: CharSequence? = null,
     borderColor: Int = "#0EC300".toColorInt(),
+    solidColor: Int = Color.WHITE,
+    radius: Float = 10 * dp,
+    textSize: Float = 10 * dp,
     action: DslDrawableSpan.() -> Unit = {}
 ): DslSpan {
     return drawable(text) {
-        gradientSolidColor = Color.WHITE
-        gradientRadius = 10 * dp
-        textSize = 9 * dp
+        gradientSolidColor = solidColor
+        gradientRadius = radius
+        this.textSize = textSize
         textGravity = Gravity.CENTER
         textColor = borderColor
         gradientStrokeColor = textColor
@@ -295,14 +333,18 @@ fun DslSpan.drawableTipBorder(
 fun DslSpan.drawableTipFill(
     text: CharSequence? = null,
     solidColor: Int = Color.RED,
+    textColor: Int = Color.WHITE,
+    radius: Float = 10 * dp,
+    textSize: Float = 10 * dp,
     action: DslDrawableSpan.() -> Unit = {}
 ): DslSpan {
     return drawable(text) {
         gradientSolidColor = solidColor
-        gradientRadius = 10 * dp
+        gradientRadius = radius
+        this.textSize = textSize
         paddingHorizontal(4 * dpi)
         paddingVertical(2 * dpi)
-        textColor = Color.WHITE
+        this.textColor = textColor
         action()
     }
 }

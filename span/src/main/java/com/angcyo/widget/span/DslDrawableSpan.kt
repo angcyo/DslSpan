@@ -12,6 +12,7 @@ import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import androidx.core.view.GravityCompat
+import kotlin.math.max
 import kotlin.math.min
 
 /**
@@ -51,6 +52,9 @@ open class DslDrawableSpan : ReplacementSpan(), IWeightSpan, IClickableSpan, IDr
 
     /**限制span的最大宽度*/
     var spanMaxWidth: Int = undefined_int
+
+    /**限制span的最小宽度*/
+    var spanMinWidth: Int = undefined_int
 
     /**span相对于[TextView]的比例, 不支持平分. 需要[DslSpanTextView]支持*/
     var spanWeight: Float = undefined_float
@@ -101,7 +105,7 @@ open class DslDrawableSpan : ReplacementSpan(), IWeightSpan, IClickableSpan, IDr
     var gradientStrokeColor = undefined_color
 
     /**边框的宽度*/
-    var gradientStrokeWidth = 1 * dp
+    var gradientStrokeWidth = 0.5f * dp
 
     /**圆角大小*/
     var gradientRadius = 25 * dp
@@ -128,7 +132,8 @@ open class DslDrawableSpan : ReplacementSpan(), IWeightSpan, IClickableSpan, IDr
 
     val _gradientRectF = RectF()
 
-    /**单击事件回调, 需要[SpanClickMethod]支持*/
+    /**单击事件回调, 需要[SpanClickMethod]支持
+     * [com.angcyo.widget.span.SpanClickMethod.Companion.install]*/
     var spanClickAction: ((view: View, span: DslDrawableSpan) -> Unit)? = null
 
     fun _initPaint(paint: Paint) {
@@ -173,7 +178,7 @@ open class DslDrawableSpan : ReplacementSpan(), IWeightSpan, IClickableSpan, IDr
 
         val textWidth = textPaint.measureText(targetText, 0, targetText.length).toInt()
 
-        val bgWidth = _drawableWidth(backgroundDrawable)
+        val bgWidth = max(spanMinWidth, _drawableWidth(backgroundDrawable))
         val fgWidth = _drawableWidth(foregroundDrawable)
 
         val bgHeight = _drawableHeight(backgroundDrawable)
